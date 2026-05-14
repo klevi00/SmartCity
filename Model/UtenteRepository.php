@@ -14,6 +14,7 @@ class UtenteRepository
         $this->pdo = Connection::getInstance();
     }
 
+
     public function findByEmail(string $email): ?array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM utenti WHERE email = :email');
@@ -31,15 +32,18 @@ class UtenteRepository
     public function registra(array $data): int
     {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO utenti (nome, cognome, email, password, telefono)
-             VALUES (:nome, :cognome, :email, :password, :telefono)'
+            'INSERT INTO utenti (nome, cognome, email, password, telefono, bio, auto, num_patente)
+             VALUES (:nome, :cognome, :email, :password, :telefono, :bio, :auto, :num_patente)'
         );
         $stmt->execute([
             ':nome'     => trim($data['nome']),
             ':cognome'  => trim($data['cognome']),
             ':email'    => strtolower(trim($data['email'])),
             ':password' => password_hash($data['password'], PASSWORD_DEFAULT),
-            ':telefono' => trim($data['telefono'] ?? ''),
+            ':telefono' => trim($data['telefono']),
+            ':bio' => trim($data['bio'] ?? ''),
+            ':auto' => trim($data['auto'] ?? ''),
+            ':num_patente' => trim($data['num_patente'] ?? ''),
         ]);
         return (int) $this->pdo->lastInsertId();
     }

@@ -55,7 +55,7 @@ class PrenotazioneRepository
     public function getPasseggeri(int $viaggio_id): array
     {
         $stmt = $this->pdo->prepare(
-            "SELECT p.*, u.nome, u.cognome, u.voto_medio
+            "SELECT p.*, u.nome, u.cognome
              FROM prenotazioni p
              JOIN utenti u ON u.id = p.passeggero_id
              WHERE p.viaggio_id = :v AND p.stato = 'confermata'"

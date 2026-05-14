@@ -45,7 +45,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Telefono</label>
+            <label class="form-label">Telefono *</label>
             <input type="tel" name="telefono" class="form-input"
                    value="<?= $this->e($dati['telefono'] ?? '') ?>" placeholder="333 1234567">
             <div class="form-hint">Opzionale. Utile per essere contattato dagli autisti.</div>
@@ -62,6 +62,21 @@
             <input type="password" name="password2" class="form-input" placeholder="Ripeti la password" required>
             <?php if (isset($errori['password2'])): ?><div class="form-error"><?= $this->e($errori['password2']) ?></div><?php endif; ?>
           </div>
+
+            <div class="form-group">
+                <label class="form-label">Bio</label>
+                <input type="text" name="bio" class="form-input" placeholder="Inserisci la bio">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Auto</label>
+                <input type="text" name="auto" class="form-input" placeholder="Fiat 500 Bianca">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Numero patente</label>
+                <input type="text" name="num_patente" class="form-input" placeholder="U1234F567B">
+            </div>
 
           <button type="submit" class="btn btn-primary btn-full btn-lg">Crea account</button>
 

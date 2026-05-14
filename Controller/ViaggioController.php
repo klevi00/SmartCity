@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Model\ViaggioRepository;
+use Model\UtenteRepository;
 use Model\PrenotazioneRepository;
 use Psr\Container\ContainerInterface;
 use Slim\Psr7\Request;
@@ -94,6 +95,12 @@ class ViaggioController
     {
         if (!isset($_SESSION['utente_id'])) {
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
+        }
+
+        $repoUtente = new UtenteRepository();
+        $utente = $repoUtente->findById($_SESSION['utente_id']);
+        if(empty($utente['num_patente']) || empty($utente['auto'])){
+            return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/profilo/' . $_SESSION['utente_id']);
         }
 
         $engine = $this->container->get('template');

@@ -10,7 +10,7 @@
       <em>spendi di meno.</em>
     </h1>
     <p class="hero-sub">
-      Ogni giorno milioni di posti auto restano vuoti in Italia. Tragitto li riempie — risparmia, conosci persone, inquina meno.
+      Risparmia, conosci persone, inquina meno.
     </p>
 
     <form action="<?= $base_path ?>/cerca" method="GET" class="search-box">
@@ -39,13 +39,6 @@
         <button type="submit" class="btn btn-accent btn-lg">Cerca</button>
       </div>
     </form>
-
-    <div class="hero-stats">
-      <div><strong>2,4M</strong> membri attivi</div>
-      <div><strong>180k</strong> viaggi al mese</div>
-      <div><strong>4,9★</strong> valutazione media</div>
-      <div><strong>CO₂ -40%</strong> per viaggio</div>
-    </div>
   </div>
 </section>
 

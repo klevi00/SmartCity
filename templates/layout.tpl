@@ -12,14 +12,9 @@
 <body>
 
 <nav class="nav">
-  <a href="<?= $base_path ?>/" class="nav-logo">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-      <rect x="2" y="2" width="28" height="28" rx="14" fill="#1f6b4a"/>
-      <path d="M9 12 L23 12 M16 12 L16 23" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="23" cy="20" r="2.5" fill="#ee7a3a"/>
-    </svg>
-    tragitto
-  </a>
+    <a href="<?= $base_path ?>/" class="nav-logo">
+        BlablaGian
+    </a>
 
   <ul class="nav-links">
     <li><a href="<?= $base_path ?>/" class="<?= ($nav_active ?? '') === 'home' ? 'active' : '' ?>">Home</a></li>
@@ -50,10 +45,8 @@
 <?= $this->section('body') ?>
 
 <footer>
-  <strong style="font-family:var(--serif);color:var(--brand)">tragitto</strong> &nbsp;·&nbsp;
-  Carpooling sostenibile in Italia &nbsp;·&nbsp;
-  <a href="<?= $base_path ?>/cerca">Cerca un viaggio</a> &nbsp;·&nbsp;
-  <a href="<?= $base_path ?>/pubblica">Pubblica un viaggio</a>
+  <strong style="font-family:var(--serif);color:var(--brand)">BlablaGian</strong> &nbsp;-
+  Carpooling sostenibile in Italia &nbsp;
 </footer>
 
 </body>

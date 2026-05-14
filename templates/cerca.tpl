@@ -117,8 +117,8 @@
                 <div>
                   <div class="ride-driver-name"><?= $this->e($v['nome']) ?> <?= $this->e($v['cognome'][0]) ?>.</div>
                   <div class="ride-driver-rating">
-                    ★ <?= number_format($v['voto_medio'], 1) ?> (<?= $v['num_recensioni'] ?> recensioni)
-                    · <?= $this->e($v['auto_marca']) ?> <?= $this->e($v['auto_modello']) ?> <?= $this->e($v['auto_colore']) ?>
+                      <?= $this->e($v['auto']) ?><br>
+                   ★ <?= number_format($v['voto_medio'] ?? 0, 1) ?>
                   </div>
                 </div>
               </div>

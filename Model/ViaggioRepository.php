@@ -16,12 +16,22 @@ class ViaggioRepository
 
     public function cerca(string $partenza, string $arrivo, string $data, int $posti = 1): array
     {
-        $sql = 'SELECT v.*, u.nome, u.cognome, u.voto_medio, u.num_recensioni, u.auto_marca, u.auto_modello, u.auto_colore
-                FROM viaggi v
-                JOIN utenti u ON v.autista_id = u.id
-                WHERE v.stato = :stato AND v.posti_disponibili >= :posti';
+        $sql = 'SELECT v.*, 
+               u.nome, 
+               u.cognome, 
+               u.auto, 
+               u.num_patente, 
+               AVG(r.voto) AS voto_medio
+        FROM viaggi v
+        JOIN utenti u ON v.autista_id = u.id
+        LEFT JOIN recensioni r ON r.destinatario_id = u.id
+        WHERE v.stato = :stato
+        AND v.posti_disponibili >= :posti';
 
-        $params = [':stato' => 'attivo', ':posti' => $posti];
+        $params = [
+            ':stato' => 'attivo',
+            ':posti' => $posti
+        ];
 
         if (!empty($data) && \DateTime::createFromFormat('Y-m-d', $data) !== false) {
             $sql .= ' AND v.data_partenza = :data';
@@ -32,10 +42,13 @@ class ViaggioRepository
             $sql .= ' AND v.partenza LIKE :partenza';
             $params[':partenza'] = "%$partenza%";
         }
+
         if ($arrivo !== '') {
             $sql .= ' AND v.arrivo LIKE :arrivo';
             $params[':arrivo'] = "%$arrivo%";
         }
+
+        $sql .= ' GROUP BY v.id, u.nome, u.cognome, u.auto, u.num_patente';
 
         $sql .= ' ORDER BY v.ora_partenza ASC';
         $stmt = $this->pdo->prepare($sql);
@@ -46,8 +59,8 @@ class ViaggioRepository
     public function findById(int $id): ?array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT v.*, u.nome, u.cognome, u.voto_medio, u.num_recensioni,
-                    u.auto_marca, u.auto_modello, u.auto_colore, u.bio, u.id AS utente_id
+            'SELECT v.*, u.nome, u.cognome,
+                    u.auto, u.bio, u.id AS utente_id
              FROM viaggi v
              JOIN utenti u ON v.autista_id = u.id
              WHERE v.id = :id'
@@ -73,8 +86,7 @@ class ViaggioRepository
     {
         $stmt = $this->pdo->prepare(
             'SELECT v.*, u.nome AS autista_nome, u.cognome AS autista_cognome,
-                    u.voto_medio, u.auto_marca, u.auto_modello,
-                    p.stato AS stato_prenotazione, p.posti AS posti_prenotati
+                     u.auto, p.stato AS stato_prenotazione, p.posti AS posti_prenotati
              FROM prenotazioni p
              JOIN viaggi v ON v.id = p.viaggio_id
              JOIN utenti u ON u.id = v.autista_id
@@ -88,7 +100,7 @@ class ViaggioRepository
     public function findRecenti(int $limit = 6): array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT v.*, u.nome, u.cognome, u.voto_medio, u.auto_marca, u.auto_modello
+            'SELECT v.*, u.nome, u.cognome, u.auto
              FROM viaggi v
              JOIN utenti u ON v.autista_id = u.id
              WHERE v.stato = "attivo" AND v.data_partenza >= CURDATE() AND v.posti_disponibili > 0
