@@ -62,6 +62,18 @@ class UtenteRepository
         return $stmt->fetchAll();
     }
 
+    public function getVotoMedio(int $utente_id)
+    {
+        $stmt = $this -> pdo -> prepare(
+            'SELECT AVG(r.voto)
+            FROM recensioni r
+            WHERE r.destinatario_id = :id
+            GROUP BY r.destinatario_id'
+        );
+        $stmt->execute([':id' => $utente_id]);
+        return $stmt->fetch();
+    }
+
     public function getConversazioni(int $utente_id): array
     {
         $stmt = $this->pdo->prepare(

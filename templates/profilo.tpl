@@ -16,7 +16,7 @@
 {*          <h1 class="profile-name"><?= $this->e($utente['nome']) ?> <?= $this->e($utente['cognome'][0]) ?>.</h1>*}
 {*          <div class="profile-rating">*}
 {*            <span style="color:var(--accent);font-size:16px">★</span>*}
-{*            <strong style="font-size:16px"><?= number_format($utente['voto_medio'], 1) ?></strong>*}
+{*            --<strong style="font-size:16px"><?= number_format($utente['voto_medio'], 1) ?></strong>*}
 {*            <span>(<?= $utente['num_recensioni'] ?> recensioni)</span>*}
 {*            <?php if ($utente['num_recensioni'] > 50): ?>*}
 {*            <span class="chip chip-success">✓ Super autista</span>*}

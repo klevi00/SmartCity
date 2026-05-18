@@ -101,6 +101,7 @@ class UtenteController
         $response->getBody()->write($engine->render('profilo', [
             'utente'    => $utente,
             'recensioni'=> $recensioni,
+            'voto_medio' => $voto_medio,
             'viaggi'    => array_slice($viaggi, 0, 4),
         ]));
         return $response;

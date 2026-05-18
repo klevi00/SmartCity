@@ -71,7 +71,7 @@
             <span class="avatar avatar-sm"><?= strtoupper(substr($v['nome'], 0, 1)) ?></span>
             <div>
               <div class="ride-driver-name"><?= $this->e($v['nome']) ?> <?= $this->e($v['cognome'][0]) ?>.</div>
-              <div class="ride-driver-rating">★ <?= number_format($v['voto_medio'], 1) ?> · <?= $this->e($v['auto_marca']) ?> <?= $this->e($v['auto_modello']) ?></div>
+              --<div class="ride-driver-rating">★ <?= number_format($v['voto_medio'], 1) ?> · <?= $this->e($v['auto_marca']) ?> <?= $this->e($v['auto_modello']) ?></div>
             </div>
           </div>
         </div>

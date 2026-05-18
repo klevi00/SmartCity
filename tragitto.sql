@@ -12,11 +12,8 @@ CREATE TABLE utenti (
     password VARCHAR(255) NOT NULL,
     telefono VARCHAR(20),
     bio TEXT,
-    auto_marca VARCHAR(100),
-    auto_modello VARCHAR(100),
-    auto_colore VARCHAR(50),
-    voto_medio DECIMAL(3,2) DEFAULT 0.00,
-    num_recensioni INT DEFAULT 0,
+    auto VARCHAR(255),
+    num_patente VARCHAR(10),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
@@ -77,10 +74,10 @@ CREATE TABLE messaggi (
 ) ENGINE=InnoDB;
 
 -- Dati di esempio (password: "password" per tutti)
-INSERT INTO utenti (nome, cognome, email, password, telefono, bio, auto_marca, auto_modello, auto_colore, voto_medio, num_recensioni) VALUES
-('Marco', 'Rossi', 'marco@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '333 1234567', 'Autista esperto, puntuale e comunicativo. Amo i viaggi in compagnia!', 'Volkswagen', 'Golf', 'Grigio', 4.90, 48),
-('Giulia', 'Marino', 'giulia@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '347 9876543', 'Studentessa universitaria, viaggio spesso tra Milano e Bologna.', 'Fiat', '500', 'Bianco', 4.75, 22),
-('Luca', 'Ferrari', 'luca@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '328 5551234', 'Manager, viaggio per lavoro tutti i lunedì. Wi-Fi a bordo!', 'BMW', '320d', 'Blu', 4.95, 134);
+INSERT INTO utenti (nome, cognome, email, password, telefono, bio, auto, num_patente) VALUES
+('Marco', 'Rossi', 'marco@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '333 1234567', 'Autista esperto, puntuale e comunicativo. Amo i viaggi in compagnia!', 'Volkswagen Golf Nero', "AB123GF456"),
+('Giulia', 'Marino', 'giulia@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '347 9876543', 'Studentessa universitaria, viaggio spesso tra Milano e Bologna.', 'Fiat 500 Bianco', "AB123GF456"),
+('Luca', 'Ferrari', 'luca@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '328 5551234', 'Manager, viaggio per lavoro tutti i lunedì. Wi-Fi a bordo!', 'BMW M4 Competition Blu Mezzanotte', "AB123GF456");
 
 INSERT INTO viaggi (autista_id, partenza, arrivo, data_partenza, ora_partenza, posti_totali, posti_disponibili, prezzo, note, no_fumo) VALUES
 (1, 'Milano', 'Bologna', DATE_ADD(CURDATE(), INTERVAL 1 DAY), '07:30:00', 3, 2, 18.00, 'Partenza da Lampugnano P1. Aria condizionata, musica soft.', 1),
@@ -95,8 +92,4 @@ INSERT INTO recensioni (autore_id, destinatario_id, viaggio_id, voto, commento) 
 (3, 1, 1, 5, 'Ottimo viaggio, macchina pulita e musica giusta. Lo riprenoterei subito.'),
 (1, 3, 3, 5, 'Luca è super professionale, Wi-Fi funzionante e partenza puntuale. Top!');
 
-UPDATE utenti u SET voto_medio = (
-    SELECT COALESCE(AVG(r.voto), 0) FROM recensioni r WHERE r.destinatario_id = u.id
-), num_recensioni = (
-    SELECT COUNT(*) FROM recensioni r WHERE r.destinatario_id = u.id
-);
+
