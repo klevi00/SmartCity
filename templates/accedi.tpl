@@ -23,6 +23,13 @@
     <div class="alert alert-danger"><?= $this->e($errore) ?></div>
     <?php endif; ?>
 
+    <?php if (isset($_SESSION['flash'])): ?>
+    <div class="form-error" style="background:var(--cream);border:1px solid var(--danger);border-radius:var(--r-md);padding:14px 16px;margin-bottom:20px;font-size:14px">
+      ⚠️ <?= $this->e($_SESSION['flash']) ?>
+    </div>
+    <?php unset($_SESSION['flash']); ?>
+    <?php endif; ?>
+
     <div class="card">
       <div class="card-body">
         <form action="<?= $base_path ?>/accedi" method="POST">

@@ -72,6 +72,8 @@ $app->get('/accedi', UtenteController::class . ':accedi');
 $app->post('/accedi', UtenteController::class . ':login');
 $app->get('/registrati', UtenteController::class . ':registrati');
 $app->post('/registrati', UtenteController::class . ':registra');
+$app->get('/profilo/{id}/modifica', [UtenteController::class, 'modificaProfilo']);
+$app->post('/profilo/{id}/modifica', [UtenteController::class, 'aggiornaProfilo']);
 $app->get('/esci', UtenteController::class . ':logout');
 
 // Profilo utente

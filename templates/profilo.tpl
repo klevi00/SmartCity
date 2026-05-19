@@ -15,9 +15,9 @@
           <h1 class="profile-name"><?= $this->e($utente['nome']) ?> <?= $this->e($utente['cognome'][0]) ?>.</h1>
           <div class="profile-rating">
             <span style="color:var(--accent);font-size:16px">★</span>
-            <strong style="font-size:16px"><?= number_format($utente['voto_medio'], 1) ?></strong>
-            <span>(<?= $utente['num_recensioni'] ?> recensioni)</span>
-            <?php if ($utente['num_recensioni'] > 50): ?>
+            <strong style="font-size:16px"><?= number_format($voto_medio, 1) ?></strong>
+            <span>(<?= $num_recensioni ?> recensioni)</span>
+            <?php if ($num_recensioni > 50): ?>
             <span class="chip chip-success">✓ Super autista</span>
             <?php endif; ?>
           </div>
@@ -25,13 +25,12 @@
           <p class="profile-bio"><?= $this->e($utente['bio']) ?></p>
           <?php endif; ?>
 
-          <?php if ($utente['auto_marca']): ?>
+          <?php if ($utente['auto']): ?>
           <div class="divider"></div>
           <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:14px">
             <div>
               <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Auto</div>
-              <strong><?= $this->e($utente['auto_marca']) ?> <?= $this->e($utente['auto_modello']) ?></strong>
-              <span style="color:var(--muted)"> · <?= $this->e($utente['auto_colore']) ?></span>
+              <strong><?= $this->e($utente['auto']) ?></strong>
             </div>
             <?php if ($utente['telefono']): ?>
             <div>
@@ -39,16 +38,28 @@
               <strong><?= $this->e($utente['telefono']) ?></strong>
             </div>
             <?php endif; ?>
+            <?php if ($utente['num_patente']): ?>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Numero Patente</div>
+              <strong><?= $this->e($utente['num_patente']) ?></strong>
+            </div>
+            <?php endif; ?>
             <div>
               <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Membro dal</div>
               <strong><?= date('M Y', strtotime($utente['created_at'])) ?></strong>
             </div>
+
           </div>
+          <?php endif; ?>
+
+          <?php if (isset($_SESSION['utente_id']) && $_SESSION['utente_id'] == $utente['id']): ?>
+          <div class="divider"></div>
+          <a href="<?= $base_path ?>/profilo/<?= $utente['id'] ?>/modifica" class="btn btn-primary" style="width:100%;text-align:center">Modifica profilo</a>
           <?php endif; ?>
 
           <?php if (isset($_SESSION['utente_id']) && $_SESSION['utente_id'] != $utente['id']): ?>
           <div class="divider"></div>
-          <a href="<?= $base_path ?>/messaggi/<?= $utente['id'] ?>" class="btn btn-ghost">💬 Invia un messaggio</a>
+          <a href="<?= $base_path ?>/messaggi/<?= $utente['id'] ?>" class="btn btn-ghost">Invia un messaggio</a>
           <?php endif; ?>
         </div>
 

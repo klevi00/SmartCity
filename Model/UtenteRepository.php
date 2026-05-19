@@ -48,6 +48,29 @@ class UtenteRepository
         return (int) $this->pdo->lastInsertId();
     }
 
+    public function aggiorna(int $id, array $data): void
+    {
+        $stmt = $this->pdo->prepare(
+            'UPDATE utenti
+         SET nome = :nome,
+             cognome = :cognome,
+             telefono = :telefono,
+             bio = :bio,
+             auto = :auto,
+             num_patente = :num_patente
+         WHERE id = :id'
+        );
+        $stmt->execute([
+            ':nome'         => trim($data['nome']),
+            ':cognome'      => trim($data['cognome']),
+            ':telefono'     => trim($data['telefono'] ?? ''),
+            ':bio'          => trim($data['bio'] ?? ''),
+            ':auto'         => trim($data['auto'] ?? ''),
+            ':num_patente'  => trim($data['num_patente'] ?? ''),
+            ':id'           => $id,
+        ]);
+    }
+
     public function getRecensioni(int $utente_id): array
     {
         $stmt = $this->pdo->prepare(

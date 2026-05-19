@@ -93,7 +93,8 @@ class UtenteController
             throw new \Slim\Exception\HttpNotFoundException($request);
         }
         $recensioni = $repo->getRecensioni($utente['id']);
-
+        $voto_medio = $repo->getVotoMedio($utente['id']);
+        $num_recensioni = $repo->getNumRecensioni($utente['id']);
         $vrepo  = new ViaggioRepository();
         $viaggi = $vrepo->findByAutista($utente['id']);
 
@@ -101,6 +102,7 @@ class UtenteController
         $response->getBody()->write($engine->render('profilo', [
             'utente'    => $utente,
             'recensioni'=> $recensioni,
+            'num_recensioni'=> $num_recensioni,
             'voto_medio' => $voto_medio,
             'viaggi'    => array_slice($viaggi, 0, 4),
         ]));
@@ -110,6 +112,8 @@ class UtenteController
     public function mieiViaggi(Request $request, Response $response, array $args): Response
     {
         if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter visualizzare i tuoi viaggi.';
+
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
         }
         $uid   = $_SESSION['utente_id'];
@@ -125,6 +129,8 @@ class UtenteController
     public function messaggi(Request $request, Response $response, array $args): Response
     {
         if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter visualizzare le tue chat.';
+
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
         }
         $uid   = $_SESSION['utente_id'];
@@ -156,6 +162,8 @@ class UtenteController
     public function inviaMessaggio(Request $request, Response $response, array $args): Response
     {
         if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter inviare un viaggio.';
+
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
         }
         $body = (array) $request->getParsedBody();
@@ -178,4 +186,72 @@ class UtenteController
         if (($d['password'] ?? '') !== ($d['password2'] ?? '')) $errori['password2'] = 'Le password non coincidono.';
         return $errori;
     }
+
+    public function modificaProfilo(Request $request, Response $response, array $args): Response
+    {
+        if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter modificare il tuo profilo.';
+            return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
+        }
+        // Impedisce di modificare il profilo di altri utenti
+        if ((int) $args['id'] !== (int) $_SESSION['utente_id']) {
+            return $response->withStatus(403);
+        }
+
+        $repo   = new UtenteRepository();
+        $utente = $repo->findById((int) $args['id']);
+
+        $engine = $this->container->get('template');
+        $response->getBody()->write($engine->render('modifica-profilo', [
+            'utente' => $utente,
+            'errori' => [],
+        ]));
+        return $response;
+    }
+
+    public function aggiornaProfilo(Request $request, Response $response, array $args): Response
+    {
+        if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter modificare il tuo profilo.';
+            return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
+        }
+        if ((int) $args['id'] !== (int) $_SESSION['utente_id']) {
+            return $response->withStatus(403);
+        }
+
+        $body   = (array) $request->getParsedBody();
+        $errori = $this->validaModifica($body);
+
+        if (!empty($errori)) {
+            $engine = $this->container->get('template');
+            $response->getBody()->write($engine->render('modifica-profilo', [
+                'utente' => array_merge($body, ['id' => $args['id']]),
+                'errori' => $errori,
+            ]));
+            return $response;
+        }
+
+        $repo = new UtenteRepository();
+        $repo->aggiorna((int) $args['id'], $body);
+
+        // Aggiorna il nome in sessione se l'utente ha cambiato il proprio profilo
+        $_SESSION['utente_nome'] = trim($body['nome']);
+
+        return $response->withStatus(302)
+            ->withHeader('Location', BASE_PATH . '/profilo/' . $args['id']);
+    }
+
+    private function validaModifica(array $d): array
+    {
+        $errori = [];
+        if (empty(trim($d['nome'] ?? '')))    $errori['nome']    = 'Inserisci il tuo nome.';
+        if (empty(trim($d['cognome'] ?? ''))) $errori['cognome'] = 'Inserisci il tuo cognome.';
+        if (isset($d['num_patente']) && $d['num_patente'] !== '' &&
+            !preg_match('/^[A-Z0-9]{1,10}$/i', $d['num_patente'])) {
+            $errori['num_patente'] = 'Numero di patente non valido.';
+        }
+        return $errori;
+    }
 }
+
+

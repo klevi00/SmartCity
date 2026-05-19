@@ -75,6 +75,8 @@ class ViaggioController
     public function prenota(Request $request, Response $response, array $args): Response
     {
         if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter prenotare un viaggio.';
+
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
         }
 
@@ -99,13 +101,15 @@ class ViaggioController
     public function pubblica(Request $request, Response $response, array $args): Response
     {
         if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter pubblicare un viaggio.';
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
         }
 
         $repoUtente = new UtenteRepository();
         $utente = $repoUtente->findById($_SESSION['utente_id']);
         if(empty($utente['num_patente']) || empty($utente['auto'])){
-            return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/profilo/' . $_SESSION['utente_id']);
+            $_SESSION['flash'] = 'Completa il profilo inserendo i dati della tua auto e del numero di patente per poter pubblicare un viaggio.';
+            return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/profilo/' . $_SESSION['utente_id'] . '/modifica');
         }
 
         $engine = $this->container->get('template');
@@ -119,6 +123,8 @@ class ViaggioController
     public function salvaViaggio(Request $request, Response $response, array $args): Response
     {
         if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter pubblicare un viaggio.';
+
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
         }
 
@@ -144,6 +150,8 @@ class ViaggioController
     public function cancella(Request $request, Response $response, array $args): Response
     {
         if (!isset($_SESSION['utente_id'])) {
+            $_SESSION['flash'] = 'Accedi per poter cancellare un viaggio.';
+
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
         }
         $repo = new ViaggioRepository();
