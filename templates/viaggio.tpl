@@ -104,12 +104,16 @@
                 </a>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:13px;color:var(--muted)">
                   <span style="color:var(--accent)">★</span>
-                  <strong><?= number_format($viaggio['voto_medio'], 1) ?></strong>
-                  <span>(<?= $viaggio['num_recensioni'] ?> recensioni)</span>
+                  <strong><?= number_format($voto_medio, 1) ?></strong>
+                  <?php if($num_recensioni == 1): ?>
+                      <span>(<?= $num_recensioni ?> recensione)</span>
+                  <?php else: ?>
+                      <span>(<?= $num_recensioni ?> recensioni)</span>
+                  <?php endif; ?>
                 </div>
-                <?php if ($viaggio['auto_marca']): ?>
+                <?php if ($viaggio['auto']): ?>
                 <div style="font-size:13px;color:var(--muted);margin-top:6px">
-                  🚗 <?= $this->e($viaggio['auto_marca']) ?> <?= $this->e($viaggio['auto_modello']) ?> · <?= $this->e($viaggio['auto_colore']) ?>
+                  🚗 <?= $this->e($viaggio['auto']) ?>
                 </div>
                 <?php endif; ?>
                 <?php if ($viaggio['bio']): ?>

@@ -30,7 +30,7 @@
 
   <?php if (isset($_SESSION['utente_id'])): ?>
   <div class="nav-user">
-    <span class="avatar avatar-sm"><?= strtoupper(substr($_SESSION['utente_nome'] ?? 'U', 0, 1)) ?></span>
+    <a href="<?= $base_path ?>/profilo/<?=$_SESSION['utente_id']?>"><span class="avatar avatar-sm"><?= strtoupper(substr($_SESSION['utente_nome'] ?? 'U', 0, 1)) ?></span></a>
     <span style="font-size:13px;font-weight:600"><?= $this->e($_SESSION['utente_nome'] ?? '') ?></span>
     <a href="<?= $base_path ?>/esci" class="btn btn-ghost btn-sm">Esci</a>
   </div>

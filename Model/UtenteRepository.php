@@ -62,7 +62,7 @@ class UtenteRepository
         return $stmt->fetchAll();
     }
 
-    public function getVotoMedio(int $utente_id)
+    public function getVotoMedio(int $utente_id): float
     {
         $stmt = $this -> pdo -> prepare(
             'SELECT AVG(r.voto)
@@ -71,7 +71,22 @@ class UtenteRepository
             GROUP BY r.destinatario_id'
         );
         $stmt->execute([':id' => $utente_id]);
-        return $stmt->fetch();
+        $result = $stmt->fetchColumn();
+        return $result !== false ? (float) $result : 0.0;
+    }
+
+    public function getNumRecensioni(int $utente_id) : int 
+    {
+        $stmt = $this -> pdo -> prepare(
+            'SELECT COUNT(*)
+            FROM recensioni r
+            WHERE r.destinatario_id = :id
+            GROUP BY r.destinatario_id'
+        );
+        $stmt->execute([':id' => $utente_id]);
+        $result = $stmt->fetchColumn();
+        return $result !== false ? (int) $result : 0;
+
     }
 
     public function getConversazioni(int $utente_id): array

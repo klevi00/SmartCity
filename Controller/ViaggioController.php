@@ -41,6 +41,7 @@ class ViaggioController
     public function show(Request $request, Response $response, array $args): Response
     {
         $repo = new ViaggioRepository();
+        $utente_repo = new UtenteRepository();
         $viaggio = $repo->findById((int) $args['id']);
 
         if (!$viaggio) {
@@ -50,6 +51,8 @@ class ViaggioController
         $prenotazioneRepo = new PrenotazioneRepository();
         $gia_prenotato = false;
         $passeggeri = $prenotazioneRepo->getPasseggeri($viaggio['id']);
+        $voto_medio = $utente_repo->getVotoMedio($viaggio['autista_id']);
+        $num_recensioni = $utente_repo->getNumRecensioni($viaggio['autista_id']);
 
         if (isset($_SESSION['utente_id'])) {
             $gia_prenotato = $prenotazioneRepo->esistePrenotazione(
@@ -63,6 +66,8 @@ class ViaggioController
             'viaggio'        => $viaggio,
             'gia_prenotato'  => $gia_prenotato,
             'passeggeri'     => $passeggeri,
+            'voto_medio'     => $voto_medio,
+            'num_recensioni' => $num_recensioni,
         ]));
         return $response;
     }
