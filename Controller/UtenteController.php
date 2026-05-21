@@ -34,6 +34,7 @@ class UtenteController
         if ($utente && password_verify($pass, $utente['password'])) {
             $_SESSION['utente_id']   = $utente['id'];
             $_SESSION['utente_nome'] = $utente['nome'];
+            $_SESSION['sesso'] = $utente['sesso'];
             return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/');
         }
 

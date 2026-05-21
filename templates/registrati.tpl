@@ -78,6 +78,23 @@
                 <input type="text" name="num_patente" class="form-input" placeholder="U1234F567B">
             </div>
 
+            <div class="form-group">
+                <label class="form-label">Sesso</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="sesso" value="M">
+                        Maschio
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="sesso" value="F">
+                        Femmina
+                    </label>
+                </div>
+                <?php if (isset($errori['sesso'])): ?>
+                <div class="form-error"><?= $this->e($errori['sesso']) ?></div>
+                <?php endif; ?>
+            </div>
+
           <button type="submit" class="btn btn-primary btn-full btn-lg">Crea account</button>
 
           <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.6">

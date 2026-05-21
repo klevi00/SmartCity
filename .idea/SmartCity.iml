@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Controller" isTestSource="false" packagePrefix="Controller\" />
       <sourceFolder url="file://$MODULE_DIR$/Model" isTestSource="false" packagePrefix="Model\" />
       <sourceFolder url="file://$MODULE_DIR$/Util" isTestSource="false" packagePrefix="Util\" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fig/http-message-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/serializable-closure" />
