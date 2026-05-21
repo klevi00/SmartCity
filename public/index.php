@@ -1,5 +1,6 @@
 <?php
 
+use Controller\ConversazioneController;
 use Controller\HomeController;
 use Controller\ViaggioController;
 use Controller\UtenteController;
@@ -83,8 +84,9 @@ $app->get('/profilo/{id:[0-9]+}', UtenteController::class . ':profilo');
 $app->get('/miei-viaggi', UtenteController::class . ':mieiViaggi');
 
 // Messaggi
-$app->get('/messaggi', UtenteController::class . ':messaggi');
-$app->get('/messaggi/{id:[0-9]+}', UtenteController::class . ':messaggi');
-$app->post('/messaggi/{id:[0-9]+}/invia', UtenteController::class . ':inviaMessaggio');
+$app->get('/messaggi', ConversazioneController::class . ':messaggi');
+$app->get('/messaggi/{id:[0-9]+}', ConversazioneController::class . ':messaggi');
+$app->post('/messaggi/{id:[0-9]+}/invia', ConversazioneController::class . ':inviaMessaggio');
+$app->get('/messaggi/{id:[0-9]+}/stream', ConversazioneController::class . ':stream');
 
 $app->run();

@@ -126,56 +126,6 @@ class UtenteController
         return $response;
     }
 
-    public function messaggi(Request $request, Response $response, array $args): Response
-    {
-        if (!isset($_SESSION['utente_id'])) {
-            $_SESSION['flash'] = 'Accedi per poter visualizzare le tue chat.';
-
-            return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
-        }
-        $uid   = $_SESSION['utente_id'];
-        $repo  = new UtenteRepository();
-
-        $altro_id = isset($args['id']) ? (int) $args['id'] : null;
-        $conversazioni = $repo->getConversazioni($uid);
-        $messaggi = [];
-        $altro = null;
-        if ($altro_id) {
-            $messaggi = $repo->getMessaggi($uid, $altro_id);
-            $altro    = $repo->findById($altro_id);
-        } elseif (!empty($conversazioni)) {
-            $altro_id = $conversazioni[0]['id'];
-            $messaggi = $repo->getMessaggi($uid, $altro_id);
-            $altro    = $repo->findById($altro_id);
-        }
-
-        $engine = $this->container->get('template');
-        $response->getBody()->write($engine->render('messaggi', [
-            'conversazioni' => $conversazioni,
-            'messaggi'      => $messaggi,
-            'altro'         => $altro,
-            'altro_id'      => $altro_id,
-        ]));
-        return $response;
-    }
-
-    public function inviaMessaggio(Request $request, Response $response, array $args): Response
-    {
-        if (!isset($_SESSION['utente_id'])) {
-            $_SESSION['flash'] = 'Accedi per poter inviare un viaggio.';
-
-            return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/accedi');
-        }
-        $body = (array) $request->getParsedBody();
-        $testo = trim($body['testo'] ?? '');
-        $dest_id = (int) $args['id'];
-        if ($testo !== '' && $dest_id > 0) {
-            $repo = new UtenteRepository();
-            $repo->inviaMessaggio($_SESSION['utente_id'], $dest_id, $testo);
-        }
-        return $response->withStatus(302)->withHeader('Location', BASE_PATH . '/messaggi/' . $dest_id);
-    }
-
     private function validaRegistrazione(array $d): array
     {
         $errori = [];
