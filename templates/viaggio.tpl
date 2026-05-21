@@ -190,7 +190,11 @@
             <?php elseif ($gia_prenotato): ?>
               <div class="alert alert-success" style="margin-bottom:0">✅ Hai già prenotato questo viaggio.</div>
 
-            <?php else: ?>
+              <?php elseif ($viaggio['solo_donne'] && ($_SESSION['sesso'] ?? '') === 'M'): ?>
+              <div class="alert alert-warning" style="margin-bottom:0">👩 Questo viaggio è riservato alle donne.</div>
+
+
+              <?php else: ?>
               <form action="<?= $base_path ?>/viaggio/<?= $viaggio['id'] ?>/prenota" method="POST">
                 <button type="submit" class="btn btn-accent btn-full btn-lg">Prenota ora — <?= number_format($viaggio['prezzo'], 0) ?>€</button>
               </form>

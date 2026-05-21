@@ -38,6 +38,12 @@
               <strong><?= $this->e($utente['telefono']) ?></strong>
             </div>
             <?php endif; ?>
+              <?php if ($utente['sesso']): ?>
+              <div>
+                  <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Sesso</div>
+                  <strong><?= $utente['sesso'] === 'M' ? 'Maschio' : 'Femmina' ?></strong>
+              </div>
+              <?php endif; ?>
             <?php if ($utente['num_patente']): ?>
             <div>
               <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Numero Patente</div>

@@ -75,9 +75,9 @@ CREATE TABLE messaggi (
 
 -- Dati di esempio (password: "password" per tutti)
 INSERT INTO utenti (nome, cognome, email, password, telefono, bio, auto, num_patente) VALUES
-('Marco', 'Rossi', 'marco@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '333 1234567', 'Autista esperto, puntuale e comunicativo. Amo i viaggi in compagnia!', 'Volkswagen Golf Nero', "AB123GF456"),
-('Giulia', 'Marino', 'giulia@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '347 9876543', 'Studentessa universitaria, viaggio spesso tra Milano e Bologna.', 'Fiat 500 Bianco', "AB123GF456"),
-('Luca', 'Ferrari', 'luca@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '328 5551234', 'Manager, viaggio per lavoro tutti i lunedì. Wi-Fi a bordo!', 'BMW M4 Competition Blu Mezzanotte', "AB123GF456");
+('Marco', 'Rossi', 'marco@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '333 1234567', 'Autista esperto, puntuale e comunicativo. Amo i viaggi in compagnia!', 'Volkswagen Golf Nero', "AB123GF456", "M"),
+('Giulia', 'Marino', 'giulia@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '347 9876543', 'Studentessa universitaria, viaggio spesso tra Milano e Bologna.', 'Fiat 500 Bianco', "AB123GF456", "F"),
+('Luca', 'Ferrari', 'luca@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '328 5551234', 'Manager, viaggio per lavoro tutti i lunedì. Wi-Fi a bordo!', 'BMW M4 Competition Blu Mezzanotte', "AB123GF456", "M");
 
 INSERT INTO viaggi (autista_id, partenza, arrivo, data_partenza, ora_partenza, posti_totali, posti_disponibili, prezzo, note, no_fumo) VALUES
 (1, 'Milano', 'Bologna', DATE_ADD(CURDATE(), INTERVAL 1 DAY), '07:30:00', 3, 2, 18.00, 'Partenza da Lampugnano P1. Aria condizionata, musica soft.', 1),

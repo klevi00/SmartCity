@@ -32,8 +32,8 @@ class UtenteRepository
     public function registra(array $data): int
     {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO utenti (nome, cognome, email, password, telefono, bio, auto, num_patente)
-             VALUES (:nome, :cognome, :email, :password, :telefono, :bio, :auto, :num_patente)'
+            'INSERT INTO utenti (nome, cognome, email, password, telefono, bio, auto, num_patente, sesso)
+             VALUES (:nome, :cognome, :email, :password, :telefono, :bio, :auto, :num_patente, :sesso)'
         );
         $stmt->execute([
             ':nome'     => trim($data['nome']),
@@ -44,6 +44,7 @@ class UtenteRepository
             ':bio' => trim($data['bio'] ?? ''),
             ':auto' => trim($data['auto'] ?? ''),
             ':num_patente' => trim($data['num_patente'] ?? ''),
+            ':sesso' => trim($data['sesso'])
         ]);
         return (int) $this->pdo->lastInsertId();
     }
